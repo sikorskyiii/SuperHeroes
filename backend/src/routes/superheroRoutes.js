@@ -1,9 +1,8 @@
 import { Router } from 'express'
 import multer from 'multer'
-import { fileURLToPath } from 'url'
 import path from 'node:path'
 import fs from 'node:fs'
-
+import { UPLOADS_DIR } from '../lib/paths.js'
 import {
   listHeroes, getHero, createHero, updateHero, deleteHero,
   addImageFile, removeImage
@@ -11,18 +10,12 @@ import {
 
 const router = Router()
 
-
-const __filename = fileURLToPath(import.meta.url)
-const __dirname  = path.dirname(__filename)
-const SRC_ROOT   = path.resolve(__dirname)         
-const UPLOADS_DIR = path.join(SRC_ROOT, '..', 'uploads') 
-
 if (!fs.existsSync(UPLOADS_DIR)) fs.mkdirSync(UPLOADS_DIR, { recursive: true })
 
 const storage = multer.diskStorage({
   destination: (_, __, cb) => cb(null, UPLOADS_DIR),
   filename: (_, file, cb) => {
-    const ext = path.extname(file.originalname || '')
+    const ext  = path.extname(file.originalname || '')
     const name = `${Date.now()}-${Math.random().toString(36).slice(2,8)}${ext}`
     cb(null, name)
   }
