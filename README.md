@@ -34,28 +34,28 @@ A small CRUD web app for a superheroes database with an image gallery.
 ---
 
 ### 2.1 Clone the repository
-
+```bash
 git clone <repo-url>
 cd SuperHeroes
-
+```
 ---
 
 ### 2.2 Backend setup
-
+```bash
 cd backend
 npm i
-
+```
 **Create backend/.env:**
 
 DATABASE_URL="your/path"
 PORT=your port
 
 **Initialize DB, seed demo data (10 DC heroes), start API:**
-
+```bash
 npm run prisma:migrate      # or: npx prisma migrate dev
 npm run seed                # adds 10 DC heroes with placeholder images
 npm run dev                 # API → http://localhost:4000
-
+```
 What this does
 
 - **Creates SQLite DB (dev.db)**
@@ -68,18 +68,18 @@ What this does
 ### 2.3 Frontend setup
 
 **Open a new terminal:**
-
+```bash
 cd frontend
 npm i
-
+```
 **Create frontend/.env:**
 
 VITE_API_ORIGIN=http://localhost:port
 
 Run the UI:
-
+```bash
 npm run dev                 # UI → http://localhost:5173
-
+```
 What this does
 
 - **Vite dev server on port 5173**
@@ -104,16 +104,17 @@ Open http://localhost:5173
 ### 2.5 (Optional) Backend tests
 
 Run tests covering main logic (CRUD, file upload, pagination):
-
+```bash
 cd backend
 npm run test          # Vitest + Supertest
 # or:
 npm run test:watch
-
+```
 ---
 
 ### 2.6 (Optional) Build frontend for production
-
+```bash
 cd frontend
 npm run build
 npm run preview       # preview the build locally
+```
