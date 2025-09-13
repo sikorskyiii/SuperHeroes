@@ -2,6 +2,10 @@ import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate, useParams } from 'react-router-dom'
 import { createHero, fetchHero, updateHero } from '../store/superheroesSlice.js'
+import Input from '../components/ui/Input.jsx'
+import Textarea from '../components/ui/Textarea.jsx'
+import Card from '../components/ui/Card.jsx'
+import Button from '../components/ui/Button.jsx'
 
 export default function HeroFormPage({ mode }) {
   const { id } = useParams()
@@ -59,50 +63,71 @@ export default function HeroFormPage({ mode }) {
   const removeImageUrl = (url) => setImages(prev => prev.filter(u => u !== url))
 
   return (
-    <section>
-      <h2>{isEdit ? 'Редагувати' : 'Створити'} героя</h2>
-      <form onSubmit={onSubmit}>
-        <div className="field">
-          <label>Псевдонім</label>
-          <input value={form.nickname} onChange={e => setForm(f => ({...f, nickname: e.target.value}))} required />
-        </div>
-        <div className="field">
-          <label>Справжнє ім’я</label>
-          <input value={form.real_name} onChange={e => setForm(f => ({...f, real_name: e.target.value}))} required />
-        </div>
-        <div className="field">
-          <label>Походження</label>
-          <textarea rows="4" value={form.origin_description} onChange={e => setForm(f => ({...f, origin_description: e.target.value}))} required />
-        </div>
-        <div className="field">
-          <label>Фраза</label>
-          <input value={form.catch_phrase} onChange={e => setForm(f => ({...f, catch_phrase: e.target.value}))} required />
-        </div>
-        <div className="field">
-          <label>Суперсили</label>
-          <input value={form.superpowers} onChange={e => setForm(f => ({...f, superpowers: e.target.value}))} />
-          <div className="hint">Через кому, напр.: "flight, heat vision, strength"</div>
-        </div>
-
-        <div className="field">
-          <label>Зображення</label>
-          <div>
-            <button type="button" className="btn" onClick={addImageUrl}>Додати URL</button>
+    <section className="space-y-4">
+      <h2 className="text-xl font-semibold">{isEdit ? 'Редагувати героя' : 'Створити героя'}</h2>
+      <Card>
+        <form onSubmit={onSubmit} className="grid md:grid-cols-2 gap-4">
+          <div className="space-y-3">
+            <div>
+              <label className="block text-sm text-gray-600 mb-1">Псевдонім</label>
+              <Input value={form.nickname} onChange={e => setForm(f => ({...f, nickname: e.target.value}))} required />
+            </div>
+            <div>
+              <label className="block text-sm text-gray-600 mb-1">Справжнє ім’я</label>
+              <Input value={form.real_name} onChange={e => setForm(f => ({...f, real_name: e.target.value}))} required />
+            </div>
+            <div>
+              <label className="block text-sm text-gray-600 mb-1">Фраза</label>
+              <Input value={form.catch_phrase} onChange={e => setForm(f => ({...f, catch_phrase: e.target.value}))} required />
+            </div>
+            <div>
+              <label className="block text-sm text-gray-600 mb-1">Суперсили</label>
+              <Input
+                value={form.superpowers}
+                onChange={e => setForm(f => ({...f, superpowers: e.target.value}))}
+                placeholder='Напр.: "flight, heat vision, strength"'
+              />
+              <div className="text-xs text-gray-500 mt-1">Через кому</div>
+            </div>
           </div>
-          <div style={{display:'grid',gridTemplateColumns:'repeat(auto-fit,minmax(160px,1fr))',gap:12,marginTop:8}}>
-            {images.map(url => (
-              <div key={url} style={{border:'1px solid #eee',borderRadius:12,padding:8}}>
-                <img src={url} alt="" style={{width:'100%',height:160,objectFit:'cover',borderRadius:10}} />
-                <button type="button" className="btn" onClick={() => removeImageUrl(url)} style={{marginTop:8,background:'#ef4444',color:'#fff',border:'1px solid #ef4444'}}>Прибрати</button>
+
+          <div className="space-y-3">
+            <div>
+              <label className="block text-sm text-gray-600 mb-1">Походження</label>
+              <Textarea rows="7" value={form.origin_description}
+                onChange={e => setForm(f => ({...f, origin_description: e.target.value}))}
+                required />
+            </div>
+
+            <div>
+              <label className="block text-sm text-gray-600 mb-2">Зображення</label>
+              <div className="flex gap-2 mb-2">
+                <Button variant="outline" type="button" onClick={addImageUrl}>Додати URL</Button>
               </div>
-            ))}
+              <div className="grid grid-cols-2 gap-2">
+                {images.map(url => (
+                  <div key={url} className="relative">
+                    <img src={url} alt="" className="w-full h-32 object-cover rounded-xl border" />
+                    <button
+                      type="button"
+                      className="btn btn-danger absolute right-2 top-2 text-xs px-2 py-1"
+                      onClick={() => removeImageUrl(url)}
+                    >
+                      ×
+                    </button>
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
-        </div>
 
-        <button className="btn" style={{background:'#000',color:'#fff',border:'1px solid #000'}} type="submit">
-          {isEdit ? 'Зберегти' : 'Створити'}
-        </button>
-      </form>
+          <div className="md:col-span-2">
+            <Button className="w-full md:w-auto" type="submit">
+              {isEdit ? 'Зберегти зміни' : 'Створити героя'}
+            </Button>
+          </div>
+        </form>
+      </Card>
     </section>
   )
 }
