@@ -26,8 +26,12 @@ export const deleteHero = createAsyncThunk('heroes/deleteHero', async (id) => {
   return id
 })
 
-export const addImage = createAsyncThunk('heroes/addImage', async ({ id, url }) => {
-  const { data } = await axios.post(`/api/superheroes/${id}/images`, { url })
+export const addImageFile = createAsyncThunk('heroes/addImageFile', async ({ id, file }) => {
+  const form = new FormData()
+  form.append('image', file)
+  const { data } = await axios.post(`/api/superheroes/${id}/images`, form, {
+    headers: { 'Content-Type': 'multipart/form-data' }
+  })
   return { id, image: data }
 })
 
@@ -80,7 +84,7 @@ const slice = createSlice({
         state.items = state.items.filter(i => i.id !== id)
         if (state.current?.id === id) state.current = null
       })
-      .addCase(addImage.fulfilled, (state, action) => {
+      .addCase(addImageFile.fulfilled, (state, action) => {
         const { id, image } = action.payload
         if (state.current?.id === id) state.current.images.push(image)
       })

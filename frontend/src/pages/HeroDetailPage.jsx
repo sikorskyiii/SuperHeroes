@@ -10,7 +10,11 @@ export default function HeroDetailPage() {
 
   const doDelete = async () => { if(!confirm('Видалити героя?')) return; await dispatch(deleteHero(Number(id))); nav('/') }
   const onAddImageUrl = async () => { const url = prompt('Встав URL зображення'); if (url) await dispatch(addImage({ id:Number(id), url })) }
-  const onUploadFile = async (e) => { const f=e.target.files?.[0]; if(!f) return; const {payload:url}=await dispatch(uploadImage(f)); await dispatch(addImage({id:Number(id), url})) }
+  const onUploadFile = async (e) => {
+  const file = e.target.files?.[0]
+    if (!file) return
+    await dispatch(addImageFile({ id: Number(id), file }))
+  }
 
   if (status==='loading' || !current) return <div className="skeleton h-8 w-56 rounded" />
 
