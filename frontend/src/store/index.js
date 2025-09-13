@@ -1,2 +1,6 @@
 import { configureStore } from '@reduxjs/toolkit'
-export default configureStore({ reducer: {} })
+import superheroes from './superheroesSlice.js'
+
+export default configureStore({
+  reducer: { superheroes }
+})
