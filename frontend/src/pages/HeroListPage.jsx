@@ -13,9 +13,14 @@ export default function HeroListPage() {
   return (
     <section>
       <h2 className="text-xl font-semibold mb-4">Усі герої</h2>
-      {status === 'loading' && (
+     {(status === 'idle' || status === 'loading') && (
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-4">
-          {Array.from({length:8}).map((_,i)=><div key={i} className="card p-3"><div className="skeleton h-44 rounded-xl mb-2"/><div className="skeleton h-5 w-1/2 rounded"/></div>)}
+          {Array.from({ length: 8 }).map((_, i) => (
+            <div key={i} className="card p-3">
+              <div className="skeleton h-44 rounded-xl mb-2" />
+              <div className="skeleton h-5 w-1/2 rounded" />
+            </div>
+          ))}
         </div>
       )}
       {status !== 'loading' && items.length === 0 && (
