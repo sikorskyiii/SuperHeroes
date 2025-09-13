@@ -4,6 +4,11 @@ import path from 'node:path'
 import dotenv from 'dotenv'
 import heroRoutes from './routes/superheroRoutes.js'
 import { errorHandler } from './middleware/errorHandler.js'
+import { fileURLToPath } from 'url'
+import path from 'node:path'
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url))
+const ROOT = path.resolve(__dirname, '..')
 
 dotenv.config()
 const app = express()

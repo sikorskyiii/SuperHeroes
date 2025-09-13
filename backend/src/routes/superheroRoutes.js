@@ -1,5 +1,6 @@
 import { Router } from 'express'
 import multer from 'multer'
+import { fileURLToPath } from 'url'
 import path from 'node:path'
 import fs from 'node:fs'
 
@@ -9,6 +10,9 @@ import {
 } from '../controllers/superheroController.js'
 
 const router = Router()
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url))
+const ROOT = path.resolve(__dirname, '..')
 const uploadsDir = path.join(process.cwd(), 'backend', 'uploads')
 if (!fs.existsSync(uploadsDir)) fs.mkdirSync(uploadsDir, { recursive: true })
 
@@ -31,3 +35,6 @@ router.post('/api/superheroes/:id/images', upload.single('image'), addImageFile)
 router.delete('/api/superheroes/:id/images/:imageId', removeImage)
 
 export default router
+
+
+

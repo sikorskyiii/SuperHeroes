@@ -35,6 +35,7 @@ export const addImageFile = createAsyncThunk('heroes/addImageFile', async ({ id,
   return { id, image: data }
 })
 
+
 export const removeImage = createAsyncThunk('heroes/removeImage', async ({ id, imageId }) => {
   await axios.delete(`/api/superheroes/${id}/images/${imageId}`)
   return { id, imageId }

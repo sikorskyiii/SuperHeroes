@@ -1,6 +1,11 @@
 import path from 'node:path'
 import fs from 'node:fs/promises'
 import { prisma } from '../lib/prisma.js'
+import { fileURLToPath } from 'url'
+import path from 'node:path'
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url))
+const ROOT = path.resolve(__dirname, '..')
 
 export async function listHeroes(req, res) {
   const page = Math.max(1, Number(req.query.page || 1))
