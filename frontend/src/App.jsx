@@ -23,8 +23,6 @@ export default function App() {
     <div className="min-h-dvh bg-gray-50 text-gray-900">
       <Navbar />
       <main className="container-narrow py-6">
-        <div className="p-3 bg-black text-white rounded-2xl mb-4">UI alive</div>
-
         <Routes>
           <Route path="/" element={<HeroListPage />} />
           <Route path="/hero/:id" element={<HeroDetailPage />} />

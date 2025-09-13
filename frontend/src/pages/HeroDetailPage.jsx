@@ -2,6 +2,7 @@ import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import { fetchHero, deleteHero, removeImage, addImageFile } from '../store/superheroesSlice.js'
+ import resolveImageUrl from '../lib/resolveImageUrl.js'
 
 export default function HeroDetailPage() {
   const { id } = useParams()
@@ -58,17 +59,25 @@ export default function HeroDetailPage() {
       </div>
 
       <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-3">
-        {current.images?.map(img => (
-          <div key={img.id} className="card p-2">
-            <img src={img.url} alt="" className="w-full h-44 object-cover rounded-xl" />
-            <button
-              className="btn btn-danger w-full mt-2"
-              onClick={() => dispatch(removeImage({ id: current.id, imageId: img.id }))}
-            >
-              Прибрати
-            </button>
-          </div>
-        ))}
+        {current.images?.map(img => {
+          const src = resolveImageUrl(img.url)
+          return (
+            <div key={img.id} className="card p-2">
+              <img
+                src={src}
+                alt=""
+                className="w-full h-44 object-cover rounded-xl"
+                onError={(e)=>{ e.currentTarget.src='https://placehold.co/600x400?text=No+Image' }}
+              />
+              <button
+                className="btn btn-danger w-full mt-2"
+                onClick={() => dispatch(removeImage({ id: current.id, imageId: img.id }))}
+              >
+                Прибрати
+              </button>
+            </div>
+          )
+        })}
       </div>
     </section>
   )
