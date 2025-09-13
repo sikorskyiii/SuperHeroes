@@ -1,28 +1,29 @@
-import { Routes, Route, Link } from 'react-router-dom'
+
+import { Routes, Route } from 'react-router-dom'
+import Navbar from './components/Navbar.jsx'
 
 function Home() {
-  return <p>Home</p>
+  return <p className="text-gray-600">Home</p>
 }
 function Create() {
-  return <p>Create</p>
+  return <p className="text-gray-600">Create form here…</p>
 }
 
 export default function App() {
   return (
-    <div className="container">
-      <header className="app-header">
-        <h1>🦸 SuperHeroes</h1>
-        <nav style={{display:'flex', gap:'1rem'}}>
-          <Link to="/">Список</Link>
-          <Link to="/create">Створити</Link>
-        </nav>
-      </header>
-      <main>
+    <div className="min-h-dvh bg-gray-50 text-gray-900">
+      <Navbar />
+      <main className="container-narrow py-6">
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/create" element={<Create />} />
         </Routes>
       </main>
+      <footer className="border-t py-6 mt-8">
+        <div className="container-narrow text-sm text-gray-500">
+          React + TailwindCSS
+        </div>
+      </footer>
     </div>
   )
 }
